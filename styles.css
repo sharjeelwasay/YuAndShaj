@@ -95,3 +95,28 @@ body {
   color: red;
   font-size: 14px;
 }
+
+.upload-body {
+  background: #111;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.upload-container {
+  width: 400px;
+}
+
+.upload-container input {
+  margin: 20px 0;
+}
+
+.upload-container button {
+  padding: 10px 20px;
+  background: gold;
+  border: none;
+  cursor: pointer;
+}
