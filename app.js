@@ -193,6 +193,9 @@ function loadGallery() {
           } else {
             el = document.createElement("img");
             el.src = url;
+
+            // CLICK TO OPEN LIGHTBOX
+            el.onclick = () => openLightbox(url);
           }
 
           grid.appendChild(el);
@@ -201,9 +204,7 @@ function loadGallery() {
       });
 
     })
-    .catch((error) => {
-      console.error("Gallery load error:", error);
-    });
+    .catch(console.error);
 }
 
 /* =========================
