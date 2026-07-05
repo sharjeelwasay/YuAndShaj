@@ -218,7 +218,7 @@ function openViewer(index) {
     viewer.innerHTML = `
       <div id="viewerBackdrop"></div>
 
-      <img id="viewerImage" />
+      <img id="viewerMedia" />
 
       <div id="viewerControls">
         <button id="prevBtn">‹</button>
@@ -262,23 +262,39 @@ function openViewer(index) {
 ========================= */
 
 function updateViewer() {
-  const img = document.getElementById("viewerImage");
-  if (!img) return;
-  img.src = galleryItems[currentIndex];
-}
+  const container = document.getElementById("viewerMedia");
+  if (!container) return;
 
-function changeImage(dir) {
-  currentIndex += dir;
+  const url = galleryItems[currentIndex];
 
-  if (currentIndex < 0) currentIndex = galleryItems.length - 1;
-  if (currentIndex >= galleryItems.length) currentIndex = 0;
+  const isVideo =
+    url.includes(".mp4") ||
+    url.includes(".mov") ||
+    url.includes(".webm");
 
-  updateViewer();
-}
+  container.innerHTML = "";
 
-function closeViewer() {
-  const viewer = document.getElementById("viewer");
-  if (viewer) viewer.style.display = "none";
+  if (isVideo) {
+    const vid = document.createElement("video");
+    vid.src = url;
+    vid.controls = true;
+    vid.autoplay = true;
+
+    vid.style.maxWidth = "90%";
+    vid.style.maxHeight = "80%";
+    vid.style.objectFit = "contain";
+
+    container.appendChild(vid);
+  } else {
+    const img = document.createElement("img");
+    img.src = url;
+
+    img.style.maxWidth = "90%";
+    img.style.maxHeight = "80%";
+    img.style.objectFit = "contain";
+
+    container.appendChild(img);
+  }
 }
 
 /* =========================
