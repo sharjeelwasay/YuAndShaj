@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Memories</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="upload-body">
+
+  <div class="upload-container">
+    <h1>Share Your Memories 📸</h1>
+    <p>Upload your photos & videos from our wedding</p>
+
+    <input type="file" id="fileInput" multiple accept="image/*,video/*"/>
+    
+    <button onclick="uploadFiles()">Upload</button>
+
+    <div id="progress"></div>
+    <div id="status"></div>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+
+  <script src="firebase.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
