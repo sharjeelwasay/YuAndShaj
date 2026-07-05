@@ -165,7 +165,7 @@ function uploadFiles() {
 }
 
 /* =========================
-   GALLERY LOADER
+   GALLERY LOADER (SAFE FIXED VERSION)
 ========================= */
 
 function loadGallery() {
@@ -206,5 +206,12 @@ function loadGallery() {
     });
 }
 
-/* auto-run gallery page */
-document.addEventListener("DOMContentLoaded", loadGallery);
+/* =========================
+   SAFE AUTO-RUN ONLY ON GALLERY PAGE
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("galleryGrid")) {
+    loadGallery();
+  }
+});
