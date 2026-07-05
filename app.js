@@ -26,39 +26,35 @@ function login() {
 }
 
 /* =========================
-   CONFETTI EFFECT
+   CONFETTI
 ========================= */
 
 function launchConfetti() {
   for (let i = 0; i < 60; i++) {
-    const confetti = document.createElement("div");
-    confetti.style.position = "fixed";
-    confetti.style.width = "8px";
-    confetti.style.height = "8px";
-    confetti.style.background =
-      ["#d4af37", "#ffffff", "#ffdf80"][Math.floor(Math.random() * 3)];
+    const c = document.createElement("div");
+    c.style.position = "fixed";
+    c.style.width = "8px";
+    c.style.height = "8px";
+    c.style.background = ["#d4af37", "#fff", "#ffdf80"][Math.floor(Math.random()*3)];
+    c.style.left = Math.random() * window.innerWidth + "px";
+    c.style.top = "-10px";
+    c.style.borderRadius = "50%";
+    c.style.zIndex = "9999";
 
-    confetti.style.left = Math.random() * window.innerWidth + "px";
-    confetti.style.top = "-10px";
-    confetti.style.borderRadius = "50%";
-    confetti.style.zIndex = "9999";
-    confetti.style.opacity = "0.9";
-
-    document.body.appendChild(confetti);
+    document.body.appendChild(c);
 
     let fall = setInterval(() => {
-      confetti.style.top = confetti.offsetTop + 5 + "px";
-
-      if (confetti.offsetTop > window.innerHeight) {
+      c.style.top = c.offsetTop + 5 + "px";
+      if (c.offsetTop > window.innerHeight) {
         clearInterval(fall);
-        confetti.remove();
+        c.remove();
       }
     }, 16);
   }
 }
 
 /* =========================
-   FILE PREVIEW (UPLOAD PAGE)
+   FILE PREVIEW
 ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -69,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const fileList = document.getElementById("fileList");
       fileList.innerHTML = "";
 
-      Array.from(e.target.files).forEach((file) => {
+      Array.from(e.target.files).forEach(file => {
         const item = document.createElement("div");
 
         if (file.type.startsWith("image/")) {
@@ -89,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================
-   UPLOAD FILES
+   UPLOAD
 ========================= */
 
 function uploadFiles() {
@@ -98,7 +94,7 @@ function uploadFiles() {
   const status = document.getElementById("status");
   const btn = document.getElementById("uploadBtn");
 
-  if (!files || files.length === 0) {
+  if (!files.length) {
     status.innerText = "Please select files first.";
     return;
   }
@@ -106,42 +102,36 @@ function uploadFiles() {
   btn.disabled = true;
   btn.innerText = "Uploading...";
 
-  let uploadedCount = 0;
+  let uploaded = 0;
 
-  Array.from(files).forEach((file) => {
+  Array.from(files).forEach(file => {
 
     const safeName = Date.now() + "_" + file.name.replace(/\s/g, "_");
     const ref = storage.ref("wedding/" + safeName);
 
     const task = ref.put(file);
 
-    task.on(
-      "state_changed",
-      (snapshot) => {
-        const percent =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
+    task.on("state_changed",
+      snap => {
         progress.innerText =
-          `Uploading ${file.name}: ${Math.round(percent)}%`;
+          `Uploading ${file.name}: ${Math.round((snap.bytesTransferred/snap.totalBytes)*100)}%`;
       },
 
-      (error) => {
-        console.error(error);
-        status.innerText = "Upload failed for: " + file.name;
+      err => {
+        console.error(err);
+        status.innerText = "Upload failed: " + file.name;
       },
 
       () => {
-        uploadedCount++;
+        uploaded++;
 
-        if (uploadedCount === files.length) {
-          progress.innerText = "";
-
+        if (uploaded === files.length) {
           launchConfetti();
 
           status.innerHTML = `
             <div style="margin-top:10px;">
               <h3>Thank you ❤️</h3>
-              <p>Your memories have been shared with us.</p>
+              <p>Your memories have been shared.</p>
             </div>
           `;
 
@@ -151,13 +141,9 @@ function uploadFiles() {
           document.getElementById("fileInput").value = "";
           document.getElementById("fileList").innerHTML = "";
 
-          // redirect to gallery
           setTimeout(() => {
             window.location.href = "gallery.html";
-          }, 3000);
-
-        } else {
-          status.innerText = `Uploaded ${uploadedCount} of ${files.length}`;
+          }, 2500);
         }
       }
     );
@@ -165,7 +151,7 @@ function uploadFiles() {
 }
 
 /* =========================
-   GALLERY LOADER (SAFE FIXED VERSION)
+   GALLERY LOADER (FIXED LIGHTBOX)
 ========================= */
 
 function loadGallery() {
@@ -173,34 +159,33 @@ function loadGallery() {
   if (!grid) return;
 
   storage.ref("wedding").listAll()
-    .then((result) => {
+    .then(res => {
 
-      result.items.forEach((itemRef) => {
-
-        itemRef.getDownloadURL().then((url) => {
+      res.items.forEach(item => {
+        item.getDownloadURL().then(url => {
 
           const isVideo =
             url.includes(".mp4") ||
             url.includes(".mov") ||
             url.includes(".webm");
 
-          let el;
-
           if (isVideo) {
-            el = document.createElement("video");
-            el.src = url;
-            el.controls = true;
+            const vid = document.createElement("video");
+            vid.src = url;
+            vid.controls = true;
+            grid.appendChild(vid);
           } else {
-            el = document.createElement("img");
-            el.src = url;
+            const img = document.createElement("img");
+            img.src = url;
 
-            // CLICK TO OPEN LIGHTBOX
-            el.onclick = () => openLightbox(url);
+            // FIXED CLICK HANDLER (guaranteed working)
+            img.addEventListener("click", function () {
+              openLightbox(url);
+            });
+
+            grid.appendChild(img);
           }
-
-          grid.appendChild(el);
         });
-
       });
 
     })
@@ -208,18 +193,14 @@ function loadGallery() {
 }
 
 /* =========================
-   SAFE AUTO-RUN ONLY ON GALLERY PAGE
+   LIGHTBOX (FIXED)
 ========================= */
 
-document.addEventListener("DOMContentLoaded", () => {
-  if (document.getElementById("galleryGrid")) {
-    loadGallery();
-  }
-});
-
 function openLightbox(url) {
-  const box = document.getElementById("lightbox");
-  const img = document.getElementById("lightboxImg");
+  let box = document.getElementById("lightbox");
+  let img = document.getElementById("lightboxImg");
+
+  if (!box || !img) return;
 
   img.src = url;
   box.style.display = "flex";
@@ -228,3 +209,13 @@ function openLightbox(url) {
 function closeLightbox() {
   document.getElementById("lightbox").style.display = "none";
 }
+
+/* =========================
+   SAFE INIT
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("galleryGrid")) {
+    loadGallery();
+  }
+});
