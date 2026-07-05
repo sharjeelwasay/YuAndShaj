@@ -338,3 +338,15 @@ body {
   border-radius: 50%;
   cursor: pointer;
 }
+
+#viewerControls button {
+  font-size: 22px;
+  background: rgba(255,255,255,0.12);
+  border: none;
+  color: white;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
