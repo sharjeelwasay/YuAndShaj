@@ -11,11 +11,13 @@
 
   <div class="upload-container">
     <h1>Share Your Memories 📸</h1>
-    <p>Upload your photos & videos from our wedding</p>
+    <p>Upload your photos & videos</p>
 
     <input type="file" id="fileInput" multiple accept="image/*,video/*"/>
-    
-    <button onclick="uploadFiles()">Upload</button>
+
+    <div id="fileList"></div>
+
+    <button id="uploadBtn" onclick="uploadFiles()">Upload Memories</button>
 
     <div id="progress"></div>
     <div id="status"></div>
@@ -28,5 +30,6 @@
 
   <script src="firebase.js"></script>
   <script src="app.js"></script>
+
 </body>
 </html>
