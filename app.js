@@ -1,4 +1,3 @@
-
 function goToLogin() {
   window.location.href = "login.html";
 }
@@ -96,7 +95,7 @@ function uploadFiles() {
   const status = document.getElementById("status");
   const btn = document.getElementById("uploadBtn");
 
-  if (!files.length) {
+  if (!files || files.length === 0) {
     status.innerText = "Please select files first.";
     return;
   }
@@ -113,17 +112,16 @@ function uploadFiles() {
 
     const task = ref.put(file);
 
-    task.on("state_changed",
+    task.on(
+      "state_changed",
       snap => {
         progress.innerText =
           `Uploading ${file.name}: ${Math.round((snap.bytesTransferred / snap.totalBytes) * 100)}%`;
       },
-
       err => {
         console.error(err);
         status.innerText = "Upload failed: " + file.name;
       },
-
       () => {
         uploaded++;
 
@@ -153,13 +151,16 @@ function uploadFiles() {
 }
 
 /* =========================
-   SWIPE GALLERY SYSTEM (NEW)
+   GALLERY DATA
 ========================= */
 
 let galleryItems = [];
 let currentIndex = 0;
 
-/* LOAD GALLERY */
+/* =========================
+   LOAD GALLERY
+========================= */
+
 function loadGallery() {
   const grid = document.getElementById("galleryGrid");
   if (!grid) return;
@@ -174,6 +175,7 @@ function loadGallery() {
         galleryItems = urls;
 
         urls.forEach((url, index) => {
+
           const isVideo =
             url.includes(".mp4") ||
             url.includes(".mov") ||
@@ -200,7 +202,10 @@ function loadGallery() {
     .catch(console.error);
 }
 
-/* OPEN FULLSCREEN VIEWER */
+/* =========================
+   FULLSCREEN VIEWER
+========================= */
+
 function openViewer(index) {
   currentIndex = index;
 
@@ -212,9 +217,12 @@ function openViewer(index) {
 
     viewer.innerHTML = `
       <div id="viewerBackdrop"></div>
+
       <img id="viewerImage" />
+
       <div id="viewerControls">
         <button id="prevBtn">‹</button>
+        <button id="downloadBtn">⤓</button>
         <button id="nextBtn">›</button>
       </div>
     `;
@@ -222,17 +230,22 @@ function openViewer(index) {
     document.body.appendChild(viewer);
 
     document.getElementById("viewerBackdrop").onclick = closeViewer;
+
     document.getElementById("prevBtn").onclick = () => changeImage(-1);
     document.getElementById("nextBtn").onclick = () => changeImage(1);
+
+    document.getElementById("downloadBtn").onclick = () => {
+      downloadCurrentImage();
+    };
 
     /* SWIPE SUPPORT */
     let startX = 0;
 
-    viewer.addEventListener("touchstart", (e) => {
+    viewer.addEventListener("touchstart", e => {
       startX = e.touches[0].clientX;
     });
 
-    viewer.addEventListener("touchend", (e) => {
+    viewer.addEventListener("touchend", e => {
       let endX = e.changedTouches[0].clientX;
 
       if (startX - endX > 50) changeImage(1);
@@ -244,14 +257,16 @@ function openViewer(index) {
   updateViewer();
 }
 
-/* UPDATE IMAGE */
+/* =========================
+   VIEWER HELPERS
+========================= */
+
 function updateViewer() {
   const img = document.getElementById("viewerImage");
   if (!img) return;
   img.src = galleryItems[currentIndex];
 }
 
-/* CHANGE IMAGE */
 function changeImage(dir) {
   currentIndex += dir;
 
@@ -261,10 +276,32 @@ function changeImage(dir) {
   updateViewer();
 }
 
-/* CLOSE VIEWER */
 function closeViewer() {
   const viewer = document.getElementById("viewer");
   if (viewer) viewer.style.display = "none";
+}
+
+/* =========================
+   DOWNLOAD CURRENT IMAGE
+========================= */
+
+function downloadCurrentImage() {
+  const url = galleryItems[currentIndex];
+
+  fetch(url)
+    .then(res => res.blob())
+    .then(blob => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "wedding-memory.jpg";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Download failed. Try long-press on mobile.");
+    });
 }
 
 /* =========================
