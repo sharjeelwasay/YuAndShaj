@@ -10,13 +10,40 @@
 <body class="gallery-body">
 
   <div class="gallery-container">
+
     <h1>Our Wedding Memories 💛</h1>
-    <p>Click any photo to view fullscreen</p>
+    <p>Tap to view fullscreen</p>
+
+    <!-- NAV BUTTONS -->
+    <div style="margin: 15px 0;">
+      <button onclick="goToUpload()" style="
+        padding:10px 14px;
+        border:none;
+        border-radius:8px;
+        background:#d4af37;
+        cursor:pointer;
+        margin-right:8px;
+      ">
+        Upload More
+      </button>
+
+      <button onclick="window.location.href='upload.html'" style="
+        padding:10px 14px;
+        border:none;
+        border-radius:8px;
+        background:rgba(255,255,255,0.1);
+        color:white;
+        cursor:pointer;
+      ">
+        Back to Upload
+      </button>
+    </div>
 
     <div id="galleryGrid"></div>
+
   </div>
 
-  <!-- Lightbox -->
+  <!-- LIGHTBOX -->
   <div id="lightbox" class="lightbox" onclick="closeLightbox()">
     <img id="lightboxImg" />
   </div>
