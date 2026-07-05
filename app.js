@@ -288,17 +288,15 @@ function closeViewer() {
 function downloadCurrentImage() {
   const url = galleryItems[currentIndex];
 
-  const a = document.createElement("a");
-  a.href = url;
-  a.target = "_blank";
-  a.rel = "noopener";
+  // Open in a new tab and let browser handle download/save
+  const link = document.createElement("a");
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener";
 
-  // this forces download behavior in most browsers
-  a.download = "wedding-memory.jpg";
-
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
 /* =========================
