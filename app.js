@@ -216,3 +216,15 @@ document.addEventListener("DOMContentLoaded", () => {
     loadGallery();
   }
 });
+
+function openLightbox(url) {
+  const box = document.getElementById("lightbox");
+  const img = document.getElementById("lightboxImg");
+
+  img.src = url;
+  box.style.display = "flex";
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").style.display = "none";
+}
