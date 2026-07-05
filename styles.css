@@ -250,3 +250,48 @@ body {
   border-radius: 10px;
   cursor: pointer;
 }
+
+#galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+
+/* gallery items */
+#galleryGrid img,
+#galleryGrid video {
+  width: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+#galleryGrid img:hover,
+#galleryGrid video:hover {
+  transform: scale(1.03);
+}
+
+/* fade-in animation */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* LIGHTBOX */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+}
