@@ -1,122 +1,185 @@
-/* ===== GLOBAL ===== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap');
+
 body {
   margin: 0;
-  font-family: 'Georgia', serif;
-  color: white;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+  background: #0f0f10;
 }
 
-/* ===== WELCOME PAGE ===== */
-.welcome-body {
-  background: url('https://images.unsplash.com/photo-1529634806980-85c3dd6d8c5b') center/cover no-repeat;
-  height: 100vh;
+/* =========================
+   GLOBAL LUXURY BACKGROUND
+========================= */
+
+.welcome-body,
+.login-body,
+.upload-body {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   position: relative;
+  overflow: hidden;
 }
 
-.overlay {
+/* soft cinematic overlay */
+.welcome-body::before,
+.login-body::before,
+.upload-body::before {
+  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: rgba(0,0,0,0.5);
+  inset: 0;
+  background:
+    radial-gradient(circle at top, rgba(255,215,160,0.15), transparent 40%),
+    radial-gradient(circle at bottom, rgba(255,255,255,0.05), transparent 50%),
+    rgba(0,0,0,0.6);
+  z-index: 0;
+}
+
+/* =========================
+   WELCOME PAGE
+========================= */
+
+.welcome-body {
+  background: url('https://images.unsplash.com/photo-1523438097201-512ae7d59c1f?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
 }
 
 .welcome-container {
   position: relative;
   z-index: 2;
+  max-width: 600px;
 }
 
 .names {
-  font-size: 48px;
-  margin-bottom: 10px;
+  font-family: 'Playfair Display', serif;
+  font-size: 64px;
+  margin: 0;
+  letter-spacing: 1px;
 }
 
 .date {
-  font-size: 20px;
-  opacity: 0.9;
+  font-size: 18px;
+  opacity: 0.85;
+  margin-top: 10px;
 }
 
 .subtitle {
-  margin-top: 10px;
-  margin-bottom: 30px;
-  font-size: 18px;
+  margin-top: 20px;
+  font-size: 16px;
+  opacity: 0.75;
 }
 
+/* luxury button */
 .enter-btn {
-  padding: 12px 28px;
-  font-size: 16px;
-  border: none;
-  background: gold;
-  color: black;
+  margin-top: 30px;
+  padding: 14px 34px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255, 215, 160, 0.12);
+  color: white;
   cursor: pointer;
-  border-radius: 6px;
-  transition: 0.3s;
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
 .enter-btn:hover {
-  background: #e6c200;
+  background: rgba(255, 215, 160, 0.25);
+  transform: translateY(-2px);
 }
 
-.login-body {
-  background: #111;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+/* =========================
+   LOGIN BOX
+========================= */
 
 .login-box {
-  background: rgba(255,255,255,0.08);
+  position: relative;
+  z-index: 2;
+  background: rgba(255,255,255,0.06);
   padding: 40px;
-  border-radius: 10px;
-  text-align: center;
-  width: 300px;
+  border-radius: 16px;
+  width: 320px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.login-box h2 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 10px;
 }
 
 .login-box input {
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
 }
 
 .login-box button {
-  padding: 10px 20px;
-  background: gold;
+  margin-top: 15px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
   border: none;
+  background: #d4af37;
+  color: black;
+  font-weight: 500;
   cursor: pointer;
 }
 
 .error {
-  color: red;
-  font-size: 14px;
+  margin-top: 10px;
+  color: #ff6b6b;
+  font-size: 13px;
 }
 
-.upload-body {
-  background: #111;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  text-align: center;
-}
+/* =========================
+   UPLOAD PAGE
+========================= */
 
 .upload-container {
-  width: 400px;
+  position: relative;
+  z-index: 2;
+  width: 420px;
+  background: rgba(255,255,255,0.06);
+  padding: 40px;
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.upload-container h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  margin-bottom: 10px;
 }
 
 .upload-container input {
   margin: 20px 0;
+  width: 100%;
 }
 
 .upload-container button {
-  padding: 10px 20px;
-  background: gold;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
   border: none;
+  background: #d4af37;
   cursor: pointer;
+  font-weight: 500;
+}
+
+#progress {
+  margin-top: 15px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+#status {
+  margin-top: 10px;
+  font-size: 13px;
 }
