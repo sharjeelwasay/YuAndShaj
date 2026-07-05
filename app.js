@@ -21,7 +21,37 @@ function login() {
 }
 
 /* =========================
-   FILE PREVIEW (UPLOAD PAGE)
+   CONFETTI (simple effect)
+========================= */
+
+function launchConfetti() {
+  for (let i = 0; i < 60; i++) {
+    const confetti = document.createElement("div");
+    confetti.style.position = "fixed";
+    confetti.style.width = "8px";
+    confetti.style.height = "8px";
+    confetti.style.background = ["#d4af37", "#fff", "#ffdf80"][Math.floor(Math.random()*3)];
+    confetti.style.left = Math.random() * window.innerWidth + "px";
+    confetti.style.top = "-10px";
+    confetti.style.opacity = "0.9";
+    confetti.style.zIndex = "9999";
+    confetti.style.borderRadius = "50%";
+
+    document.body.appendChild(confetti);
+
+    let fall = setInterval(() => {
+      confetti.style.top = confetti.offsetTop + 5 + "px";
+
+      if (confetti.offsetTop > window.innerHeight) {
+        clearInterval(fall);
+        confetti.remove();
+      }
+    }, 16);
+  }
+}
+
+/* =========================
+   FILE PREVIEW
 ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -99,6 +129,8 @@ function uploadFiles() {
         if (uploadedCount === files.length) {
           progress.innerText = "";
 
+          launchConfetti();
+
           status.innerHTML = `
             <div style="margin-top:10px;">
               <h3>Thank you ❤️</h3>
@@ -111,6 +143,12 @@ function uploadFiles() {
 
           document.getElementById("fileInput").value = "";
           document.getElementById("fileList").innerHTML = "";
+
+          // AUTO REDIRECT after 4 seconds
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 4000);
+
         } else {
           status.innerText = `Uploaded ${uploadedCount} of ${files.length}`;
         }
