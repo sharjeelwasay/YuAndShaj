@@ -11,11 +11,14 @@
 
   <div class="gallery-container">
     <h1>Our Wedding Memories 💛</h1>
-    <p>Shared moments from our loved ones</p>
+    <p>Click any photo to view fullscreen</p>
 
     <div id="galleryGrid"></div>
+  </div>
 
-    <button onclick="goToUpload()">Upload More</button>
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg" />
   </div>
 
   <!-- Firebase -->
