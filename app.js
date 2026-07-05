@@ -1,3 +1,23 @@
+window.location.href = "login.html";
+}
+
+// LOGIN FUNCTION
+// LOGIN
+function login() {
+const password = document.getElementById("password").value;
+const email = "wedding@yuandshaj.com";
+@@ -13,7 +13,38 @@ function login() {
+.then(() => {
+window.location.href = "upload.html";
+})
+    .catch((error) => {
+    .catch(() => {
+errorEl.innerText = "Incorrect password. Please try again.";
+});
+}
+
+
+// UPLOAD FUNCTION
 function uploadFiles() {
   const files = document.getElementById("fileInput").files;
   const progress = document.getElementById("progress");
