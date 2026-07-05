@@ -35,7 +35,9 @@ function launchConfetti() {
     c.style.position = "fixed";
     c.style.width = "8px";
     c.style.height = "8px";
-    c.style.background = ["#d4af37", "#fff", "#ffdf80"][Math.floor(Math.random()*3)];
+    c.style.background =
+      ["#d4af37", "#fff", "#ffdf80"][Math.floor(Math.random() * 3)];
+
     c.style.left = Math.random() * window.innerWidth + "px";
     c.style.top = "-10px";
     c.style.borderRadius = "50%";
@@ -114,7 +116,7 @@ function uploadFiles() {
     task.on("state_changed",
       snap => {
         progress.innerText =
-          `Uploading ${file.name}: ${Math.round((snap.bytesTransferred/snap.totalBytes)*100)}%`;
+          `Uploading ${file.name}: ${Math.round((snap.bytesTransferred / snap.totalBytes) * 100)}%`;
       },
 
       err => {
@@ -151,9 +153,13 @@ function uploadFiles() {
 }
 
 /* =========================
-   GALLERY LOADER (FIXED LIGHTBOX)
+   SWIPE GALLERY SYSTEM (NEW)
 ========================= */
 
+let galleryItems = [];
+let currentIndex = 0;
+
+/* LOAD GALLERY */
 function loadGallery() {
   const grid = document.getElementById("galleryGrid");
   if (!grid) return;
@@ -161,9 +167,13 @@ function loadGallery() {
   storage.ref("wedding").listAll()
     .then(res => {
 
-      res.items.forEach(item => {
-        item.getDownloadURL().then(url => {
+      const promises = res.items.map(item => item.getDownloadURL());
 
+      Promise.all(promises).then(urls => {
+
+        galleryItems = urls;
+
+        urls.forEach((url, index) => {
           const isVideo =
             url.includes(".mp4") ||
             url.includes(".mov") ||
@@ -178,36 +188,83 @@ function loadGallery() {
             const img = document.createElement("img");
             img.src = url;
 
-            // FIXED CLICK HANDLER (guaranteed working)
-            img.addEventListener("click", function () {
-              openLightbox(url);
-            });
+            img.addEventListener("click", () => openViewer(index));
 
             grid.appendChild(img);
           }
         });
+
       });
 
     })
     .catch(console.error);
 }
 
-/* =========================
-   LIGHTBOX (FIXED)
-========================= */
+/* OPEN FULLSCREEN VIEWER */
+function openViewer(index) {
+  currentIndex = index;
 
-function openLightbox(url) {
-  let box = document.getElementById("lightbox");
-  let img = document.getElementById("lightboxImg");
+  let viewer = document.getElementById("viewer");
 
-  if (!box || !img) return;
+  if (!viewer) {
+    viewer = document.createElement("div");
+    viewer.id = "viewer";
 
-  img.src = url;
-  box.style.display = "flex";
+    viewer.innerHTML = `
+      <div id="viewerBackdrop"></div>
+      <img id="viewerImage" />
+      <div id="viewerControls">
+        <button id="prevBtn">‹</button>
+        <button id="nextBtn">›</button>
+      </div>
+    `;
+
+    document.body.appendChild(viewer);
+
+    document.getElementById("viewerBackdrop").onclick = closeViewer;
+    document.getElementById("prevBtn").onclick = () => changeImage(-1);
+    document.getElementById("nextBtn").onclick = () => changeImage(1);
+
+    /* SWIPE SUPPORT */
+    let startX = 0;
+
+    viewer.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    viewer.addEventListener("touchend", (e) => {
+      let endX = e.changedTouches[0].clientX;
+
+      if (startX - endX > 50) changeImage(1);
+      if (endX - startX > 50) changeImage(-1);
+    });
+  }
+
+  viewer.style.display = "flex";
+  updateViewer();
 }
 
-function closeLightbox() {
-  document.getElementById("lightbox").style.display = "none";
+/* UPDATE IMAGE */
+function updateViewer() {
+  const img = document.getElementById("viewerImage");
+  if (!img) return;
+  img.src = galleryItems[currentIndex];
+}
+
+/* CHANGE IMAGE */
+function changeImage(dir) {
+  currentIndex += dir;
+
+  if (currentIndex < 0) currentIndex = galleryItems.length - 1;
+  if (currentIndex >= galleryItems.length) currentIndex = 0;
+
+  updateViewer();
+}
+
+/* CLOSE VIEWER */
+function closeViewer() {
+  const viewer = document.getElementById("viewer");
+  if (viewer) viewer.style.display = "none";
 }
 
 /* =========================
