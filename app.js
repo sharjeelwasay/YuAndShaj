@@ -288,20 +288,17 @@ function closeViewer() {
 function downloadCurrentImage() {
   const url = galleryItems[currentIndex];
 
-  fetch(url)
-    .then(res => res.blob())
-    .then(blob => {
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "wedding-memory.jpg";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Download failed. Try long-press on mobile.");
-    });
+  const a = document.createElement("a");
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener";
+
+  // this forces download behavior in most browsers
+  a.download = "wedding-memory.jpg";
+
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 /* =========================
