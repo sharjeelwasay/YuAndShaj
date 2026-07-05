@@ -295,3 +295,46 @@ body {
   max-height: 90%;
   border-radius: 12px;
 }
+
+
+#viewer {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+#viewerBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+}
+
+#viewerImage {
+  max-width: 90%;
+  max-height: 80%;
+  z-index: 2;
+  border-radius: 12px;
+  animation: fadeIn 0.3s ease;
+}
+
+#viewerControls {
+  position: absolute;
+  bottom: 40px;
+  display: flex;
+  gap: 40px;
+  z-index: 3;
+}
+
+#viewerControls button {
+  font-size: 30px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+}
