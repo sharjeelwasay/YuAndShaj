@@ -350,3 +350,11 @@ body {
   cursor: pointer;
   backdrop-filter: blur(6px);
 }
+
+#galleryGrid video {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: contain;
+  background: black;
+}
