@@ -214,3 +214,39 @@ body {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+.gallery-body {
+  background: #0f0f10;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.gallery-container h1 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 10px;
+}
+
+#galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 30px;
+}
+
+#galleryGrid img,
+#galleryGrid video {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.gallery-container button {
+  margin-top: 30px;
+  padding: 12px 20px;
+  border: none;
+  background: #d4af37;
+  color: black;
+  border-radius: 10px;
+  cursor: pointer;
+}
