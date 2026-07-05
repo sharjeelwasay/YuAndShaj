@@ -1,5 +1,10 @@
+
 function goToLogin() {
   window.location.href = "login.html";
+}
+
+function goToUpload() {
+  window.location.href = "upload.html";
 }
 
 /* =========================
@@ -21,7 +26,7 @@ function login() {
 }
 
 /* =========================
-   CONFETTI (simple effect)
+   CONFETTI EFFECT
 ========================= */
 
 function launchConfetti() {
@@ -30,12 +35,14 @@ function launchConfetti() {
     confetti.style.position = "fixed";
     confetti.style.width = "8px";
     confetti.style.height = "8px";
-    confetti.style.background = ["#d4af37", "#fff", "#ffdf80"][Math.floor(Math.random()*3)];
+    confetti.style.background =
+      ["#d4af37", "#ffffff", "#ffdf80"][Math.floor(Math.random() * 3)];
+
     confetti.style.left = Math.random() * window.innerWidth + "px";
     confetti.style.top = "-10px";
-    confetti.style.opacity = "0.9";
-    confetti.style.zIndex = "9999";
     confetti.style.borderRadius = "50%";
+    confetti.style.zIndex = "9999";
+    confetti.style.opacity = "0.9";
 
     document.body.appendChild(confetti);
 
@@ -51,7 +58,7 @@ function launchConfetti() {
 }
 
 /* =========================
-   FILE PREVIEW
+   FILE PREVIEW (UPLOAD PAGE)
 ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -144,10 +151,10 @@ function uploadFiles() {
           document.getElementById("fileInput").value = "";
           document.getElementById("fileList").innerHTML = "";
 
-          // AUTO REDIRECT after 4 seconds
+          // redirect to gallery
           setTimeout(() => {
-            window.location.href = "index.html";
-          }, 4000);
+            window.location.href = "gallery.html";
+          }, 3000);
 
         } else {
           status.innerText = `Uploaded ${uploadedCount} of ${files.length}`;
@@ -156,3 +163,48 @@ function uploadFiles() {
     );
   });
 }
+
+/* =========================
+   GALLERY LOADER
+========================= */
+
+function loadGallery() {
+  const grid = document.getElementById("galleryGrid");
+  if (!grid) return;
+
+  storage.ref("wedding").listAll()
+    .then((result) => {
+
+      result.items.forEach((itemRef) => {
+
+        itemRef.getDownloadURL().then((url) => {
+
+          const isVideo =
+            url.includes(".mp4") ||
+            url.includes(".mov") ||
+            url.includes(".webm");
+
+          let el;
+
+          if (isVideo) {
+            el = document.createElement("video");
+            el.src = url;
+            el.controls = true;
+          } else {
+            el = document.createElement("img");
+            el.src = url;
+          }
+
+          grid.appendChild(el);
+        });
+
+      });
+
+    })
+    .catch((error) => {
+      console.error("Gallery load error:", error);
+    });
+}
+
+/* auto-run gallery page */
+document.addEventListener("DOMContentLoaded", loadGallery);
