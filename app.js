@@ -3,7 +3,7 @@ function goToLogin() {
 }
 
 /* =========================
-   LOGIN (Firebase Auth)
+   LOGIN
 ========================= */
 
 function login() {
@@ -15,14 +15,44 @@ function login() {
     .then(() => {
       window.location.href = "upload.html";
     })
-    .catch((error) => {
-      console.error(error);
+    .catch(() => {
       errorEl.innerText = "Incorrect password. Please try again.";
     });
 }
 
 /* =========================
-   UPLOAD FILES (Firebase Storage)
+   FILE PREVIEW (UPLOAD PAGE)
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+  const fileInput = document.getElementById("fileInput");
+
+  if (fileInput) {
+    fileInput.addEventListener("change", (e) => {
+      const fileList = document.getElementById("fileList");
+      fileList.innerHTML = "";
+
+      Array.from(e.target.files).forEach((file) => {
+        const item = document.createElement("div");
+
+        if (file.type.startsWith("image/")) {
+          const img = document.createElement("img");
+          img.src = URL.createObjectURL(file);
+          item.appendChild(img);
+        }
+
+        const name = document.createElement("div");
+        name.innerText = "📄 " + file.name;
+
+        item.appendChild(name);
+        fileList.appendChild(item);
+      });
+    });
+  }
+});
+
+/* =========================
+   UPLOAD FILES
 ========================= */
 
 function uploadFiles() {
@@ -43,10 +73,9 @@ function uploadFiles() {
 
   Array.from(files).forEach((file) => {
 
-    // safer filename (prevents overwrite + spaces issues)
     const safeName = Date.now() + "_" + file.name.replace(/\s/g, "_");
-
     const ref = storage.ref("wedding/" + safeName);
+
     const task = ref.put(file);
 
     task.on(
@@ -60,24 +89,30 @@ function uploadFiles() {
       },
 
       (error) => {
-        console.error("Upload error:", error);
+        console.error(error);
         status.innerText = "Upload failed for: " + file.name;
       },
 
       () => {
         uploadedCount++;
 
-        status.innerText =
-          `Uploaded ${uploadedCount} of ${files.length}`;
-
         if (uploadedCount === files.length) {
           progress.innerText = "";
-          status.innerText = "All memories uploaded successfully ❤️";
+
+          status.innerHTML = `
+            <div style="margin-top:10px;">
+              <h3>Thank you ❤️</h3>
+              <p>Your memories have been shared with us.</p>
+            </div>
+          `;
 
           btn.disabled = false;
           btn.innerText = "Upload Memories";
 
           document.getElementById("fileInput").value = "";
+          document.getElementById("fileList").innerHTML = "";
+        } else {
+          status.innerText = `Uploaded ${uploadedCount} of ${files.length}`;
         }
       }
     );
