@@ -1,0 +1,62 @@
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  color: white;
+}
+
+/* ===== WELCOME PAGE ===== */
+.welcome-body {
+  background: url('https://images.unsplash.com/photo-1529634806980-85c3dd6d8c5b') center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+.welcome-container {
+  position: relative;
+  z-index: 2;
+}
+
+.names {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.date {
+  font-size: 20px;
+  opacity: 0.9;
+}
+
+.subtitle {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.enter-btn {
+  padding: 12px 28px;
+  font-size: 16px;
+  border: none;
+  background: gold;
+  color: black;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.enter-btn:hover {
+  background: #e6c200;
+}
