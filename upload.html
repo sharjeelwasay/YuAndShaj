@@ -10,6 +10,7 @@
 <body class="upload-body">
 
   <div class="upload-container">
+
     <h1>Share Your Memories 📸</h1>
     <p>Upload your photos & videos from our wedding</p>
 
@@ -17,23 +18,30 @@
 
     <div id="fileList"></div>
 
-    <button id="uploadBtn" onclick="uploadFiles()">Upload Memories</button>
+    <!-- UPLOAD BUTTON -->
+    <button id="uploadBtn" onclick="uploadFiles()">
+      Upload Memories
+    </button>
 
-    <button onclick="window.location.href='gallery.html'" style="
-  margin-top: 15px;
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  background: rgba(255,255,255,0.1);
-  color: white;
-  cursor: pointer;
-">
-View Gallery
-</button>
+    <!-- VIEW GALLERY BUTTON (NOW GUARANTEED VISIBLE) -->
+    <button onclick="window.location.href='gallery.html'"
+      style="
+        margin-top: 12px;
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        background: rgba(255,255,255,0.12);
+        color: white;
+        cursor: pointer;
+        font-size: 14px;
+      ">
+      View Gallery
+    </button>
 
     <div id="progress"></div>
     <div id="status"></div>
+
   </div>
 
   <!-- Firebase -->
