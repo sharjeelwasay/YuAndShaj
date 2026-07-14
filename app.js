@@ -320,21 +320,23 @@ function openViewer(index) {
 
     viewer.innerHTML = `
 
-      <div id="viewerBackdrop"></div>
+  <div id="viewerBackdrop"></div>
 
-      <div id="viewerMedia"></div>
+  <button id="closeViewerBtn">✕</button>
 
-      <div id="viewerControls">
+  <div id="viewerMedia"></div>
 
-        <button id="prevBtn">‹</button>
+  <div id="viewerControls">
 
-        <button id="downloadBtn">⤓</button>
+    <button id="prevBtn">‹</button>
 
-        <button id="nextBtn">›</button>
+    <button id="downloadBtn">⤓</button>
 
-      </div>
+    <button id="nextBtn">›</button>
 
-    `;
+  </div>
+
+`;
 
 
     document.body.appendChild(viewer);
