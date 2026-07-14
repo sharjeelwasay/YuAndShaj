@@ -375,3 +375,27 @@ body {
   border-radius: 12px;
   object-fit: contain;
 }
+
+#closeViewerBtn {
+  position: fixed;
+  top: 20px;
+  right: 25px;
+
+  width: 45px;
+  height: 45px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(255,255,255,0.9);
+  color: black;
+
+  font-size: 24px;
+  cursor: pointer;
+
+  z-index: 9999;
+}
+
+#closeViewerBtn:hover {
+  transform: scale(1.1);
+}
