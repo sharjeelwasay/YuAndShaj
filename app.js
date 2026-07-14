@@ -218,7 +218,7 @@ function openViewer(index) {
     viewer.innerHTML = `
       <div id="viewerBackdrop"></div>
 
-      <img id="viewerMedia" />
+      <div id="viewerMedia"></div>
 
       <div id="viewerControls">
         <button id="prevBtn">‹</button>
