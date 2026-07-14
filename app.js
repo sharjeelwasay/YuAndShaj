@@ -69,27 +69,64 @@ document.addEventListener("DOMContentLoaded", () => {
     fileInput.addEventListener("change", (e) => {
 
       const fileList = document.getElementById("fileList");
+
       fileList.innerHTML = "";
 
-      Array.from(e.target.files).forEach(file => {
+      const files = Array.from(e.target.files);
+
+
+      files.forEach(file => {
 
         const item = document.createElement("div");
+        item.className = "previewItem";
+
 
         if (file.type.startsWith("image/")) {
 
           const img = document.createElement("img");
+
           img.src = URL.createObjectURL(file);
 
           item.appendChild(img);
+
+
+        } else if (file.type.startsWith("video/")) {
+
+          const video = document.createElement("video");
+
+          video.src = URL.createObjectURL(file);
+
+          video.muted = true;
+
+          video.controls = true;
+
+          item.appendChild(video);
+
         }
 
-        const name = document.createElement("div");
-        name.innerText = "📄 " + file.name;
+
+        const name = document.createElement("p");
+
+        name.innerText = file.name;
 
         item.appendChild(name);
+
+
         fileList.appendChild(item);
 
+
       });
+
+
+      const status = document.getElementById("status");
+
+      if (status) {
+
+        status.innerText =
+          `${files.length} memories selected ❤️`;
+
+      }
+
 
     });
 
