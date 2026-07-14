@@ -346,6 +346,9 @@ function openViewer(index) {
     document.getElementById("viewerBackdrop")
       .onclick = closeViewer;
 
+    document.getElementById("closeViewerBtn")
+      .onclick = closeViewer;
+
 
     document.getElementById("prevBtn")
       .onclick = () => changeImage(-1);
